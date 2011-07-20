@@ -1,0 +1,113 @@
+\documentclass[english]{article}
+
+\begin{document}
+\title{Quick Intro to SBMLR}
+%\VignetteIndexEntry{Quick intro to SBMLR}
+\author{Tom Radivoyevitch}
+
+\maketitle
+
+\section*{Introduction}
+\emph{SBMLR} reads SBML files to and from an SBML-like R list of lists core object of class SBML, and it reads and writes 
+these core objects into R text files that are well structured and light weight for editing. It also facilitates model
+simulations and model summaries. 
+
+
+\section*{Model import, export, editing and viewing}
+
+The following code reads in Curto et al.'s purine metabolism model of 1998
+<<read>>=
+library(SBMLR)
+curto=readSBML(system.file("models", "curto.xml", package = "SBMLR"))  
+head(summary(curto)$reactions)
+@
+and the next two lines serialize the object curto of S3 class SBML (R list of lists) into a
+current working directory SBML (XML) file and editable R code SBMLR file. 
+Relative to the option of using \textit{dput} and \textit{deparse}, 
+\textit{saveSBMLR} and \textit{readSBMLR} ASCII text representations are 
+more pleasant to look at and thus edit (the carriage returns are in the right places). 
+<<save>>=
+saveSBML(curto,"curto.xml")
+saveSBMLR(curto,"curto.r")
+@
+These two files can then be read back in and compared as follows.
+<<equality>>=
+curtoX=readSBML("curto.xml")
+curtoR=readSBMLR("curto.r")
+head((curtoX==curtoR)$species)
+head((curtoX==curtoR)$reactions)
+@
+Values in these two dataframes are TRUE where the initial concentrations, fluxes, and reaction rate laws 
+(as strings) are equal. 
+
+\section*{Model simulation}
+The following simulation first shows that the initial conditions is a steady state. It then shows the  
+time course response to an increase in [PRPP] from 5 uM to 50 uM. 
+<<simulation>>=
+out1=simulate(curto,seq(-20,0,1))
+curto$species$PRPP$ic=50
+out2=simulate(curto,0:70)
+outs=data.frame(rbind(out1,out2))
+attach(outs) 
+par(mfrow=c(2,1))
+plot(time,IMP,type="l",xlab="minutes",ylab="IMP (uM)")
+plot(time,HX,type="l",xlab="minutes",ylab="HX (uM)")
+par(mfrow=c(1,1))
+detach(outs)
+@
+
+The modulator argument to \textit{simulate} is either NULL, a vector of numbers, or a list of interpolation functions
+(time varying enzyme concentration boundary conditions). The vector and list 
+lengths equal to the number of reactions; in the vector case reaction rate law amplitude parameters are multipied by 
+1 at times less
+than zero and the corresponding vector element thereafter. 
+The following code doubles the amplitude parameters 
+of Curto et al's 37 reactions at t=0; concentrations
+then stay the same as fluxes double. 
+<<bumpLessXfer>>=
+curto$species$PRPP$ic=5  # return PRPP IC to its original value
+simulate(curto,(-10):10,modulator=rep(2,37)) # bumpless transfer in concentrations since all V increase by 2
+@
+If half the fluxes increase and the other half decrease, both by 10 percent, both concentrations and fluxes 
+change 
+<<unstable>>=
+simulate(curto,(-10):10,modulator=c(rep(1.1,20),rep(0.9,17))) # half up, half down, not bumpless
+@
+Clearly, this system has stability sensitivity problems. 
+
+The folate model of Morrison and Allegra (JBC 1989) can be simulated as follows
+<<folateSim>>=
+morr=readSBML(file.path(system.file(package="SBMLR"), "models/morrison.xml"))  
+out1=simulate(morr,seq(-20,0,1))
+morr$species$EMTX$ic=1 # bolus of methotrexate to 1 uM
+out2=simulate(morr,0:30)
+outs=data.frame(rbind(out1,out2))
+attach(outs)
+par(mfrow=c(3,4))
+plot(time,FH2b,type="l",xlab="Hours")
+plot(time,FH2f,type="l",xlab="Hours")
+plot(time,DHFRf,type="l",xlab="Hours")
+plot(time,DHFRtot,type="l",xlab="Hours")
+plot(time,CHOFH4,type="l",xlab="Hours")
+plot(time,FH4,type="l",xlab="Hours")
+plot(time,CH2FH4,type="l",xlab="Hours")
+plot(time,CH3FH4,type="l",xlab="Hours")
+plot(time,AICARsyn,type="l",xlab="Hours")
+plot(time,MTR,type="l",xlab="Hours")
+plot(time,TYMS,type="l",xlab="Hours")
+#plot(time,EMTX,type="l",xlab="Hours")
+plot(time,DHFReductase,type="l",xlab="Hours")
+par(mfrow=c(1,1))
+detach(outs)
+@
+
+As final outputs in this document, the full curto summary and 
+object are:
+<<summaryDump>>=
+summary(curto)
+curto
+@
+
+
+
+\end{document}
