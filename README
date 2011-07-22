@@ -1,4 +1,4 @@
-This is a fork of the SBMLR package used to import SBML models in R. 
+This is a fork of the SBMLR package originally written by Tom Radivoyevitch(Case western University) used to import SBML models in R. 
 
 The original package was very strict in terms of arrangement of the XML and rarely worked properly with most models available at Bioc.
 
@@ -10,10 +10,11 @@ the partial rank correlations of the different parameters of the model.
 --Dependencies-----
 
 libxml2 - XML tree creaetor. This can be installed by typing 'library("XML")' without the single quotes within R.
-
 odesolve - Livermore ODE solver. This can be installed by tying 'library("odesolve")' without the single quotes from within R.
 
 ----Installation---
+
+Note: These Instructions apply to linux, windows and Mac operating systems.
 
 1) Launch R and install the above packages.
 
@@ -40,7 +41,7 @@ Returns - Equivalent R model object file.
 example
 model = readSBML('/home/user/model.xml')
 
-saveSBML('path/to/save', R model object):
+saveSBML(R model object, 'path/to/save/model.xml'):
 
 Arguments - Path/to/save - where you want to save the file
 	    R model object - the R object you want to save.
@@ -49,7 +50,7 @@ Returns - TRUE if successful. False if not.
 
 example
 
-saveSBML('/home/user/some_name.xml', model)
+saveSBML(model, '/home/user/some_name.xml')
 
 simulate(model, time series):
 

@@ -68,7 +68,7 @@
 
       if(name=="compartment")  
 	{
-		compartments[[atts[1]]]<<-atts
+		compartments[[atts["id"]]]<<-atts
 	}
 
       if(name=="species")  
@@ -78,7 +78,6 @@
 
       if(name=="assignmentRule")
 	{
-		
 		rules[[atts["variable"]]]$idOutput<<-atts[["variable"]] 
 	}
       if(name=="reaction")  
@@ -125,15 +124,15 @@
 	}
       if((name=="speciesReference")&reactant)			
 	{
-        	reactants<<-c(reactants,species=atts[[1]])
+        	reactants<<-c(reactants,species=atts[["species"]])
 	}
       if((name=="speciesReference")&product)
 	{
-	        products<<-c(products,species=atts[[1]])
+	        products<<-c(products,species=atts[["species"]])
 	}
       if(name=="modifierSpeciesReference")
 	{
-	        modifiers<<-c(modifiers,species=atts[[1]])
+	        modifiers<<-c(modifiers,species=atts[["species"]])
 	}
       if((name=="parameter")&law)			#parameter encountered within a kinetic law definition
 	{
@@ -196,11 +195,6 @@
 	        modifiers<<-NULL;
 		parameters<<-NULL;parameterIDs<<-NULL     
 	}
-
-	#if(name=="listOfRules")
-	#{
-#		rule <<- FALSE
-	#}
     }
     
     .text <- function(x, ...) 
@@ -325,7 +319,7 @@
 	}		
 #
       compartments=sapply(compartments,fixComps, simplify = FALSE)
-      species=sapply(species,fixSpecies, simplify = FALSE)     # this keeps the better looks in the SBMLR model definition file
+      species=sapply(species,fixSpecies, simplify = FALSE)     			#this keeps the better looks in the SBMLR model definition file
 
       ParametersList = sapply(ParametersList, fixParams, simplify = FALSE)	#building params list
       
@@ -443,18 +437,18 @@
   
   edoc <- xmlEventParse(filename,handlers=sbmlHandler(),ignoreBlanks = TRUE)	#object which is created by readsbml first.
 										#from xmlparser package. arguments(file_to_parse, handler, handling 											#spaces boolean)
-  model=edoc$getModel()							#model object created by taking previous and calling getModel()
+  model=edoc$getModel()								#model object created by taking previous and calling getModel()
 
-  doc <- xmlTreeParse(filename,ignoreBlanks = TRUE) 			#creating XML dom tree
+  doc <- xmlTreeParse(filename,ignoreBlanks = TRUE) 				#creating XML dom tree
 
-  model$htmlNotes=doc$doc$children$sbml[["model"]][["notes"]] 		# Traverse DOM and retrieve the notes child value
-  rules=doc$doc$children$sbml[["model"]][["listOfRules"]]		# Traverse the DOM and retrieve the list of rules
-  reactions=doc$doc$children$sbml[["model"]][["listOfReactions"]]	# Traverse the DOm and retrieve the list of reactions
+  model$htmlNotes=doc$doc$children$sbml[["model"]][["notes"]] 			# Traverse DOM and retrieve the notes child value
+  rules=doc$doc$children$sbml[["model"]][["listOfRules"]]			# Traverse the DOM and retrieve the list of rules
+  reactions=doc$doc$children$sbml[["model"]][["listOfReactions"]]		# Traverse the DOm and retrieve the list of reactions
   
-  globalParameters=names(model$globalParameters)			# Set name values for the global parameters list
+  globalParameters=names(model$globalParameters)				# Set name values for the global parameters list
   
   
-  nRules=length(rules)							#number of rules in the sbml file(assuming all assignment)
+  nRules=length(rules)								# Number of rules in the sbml file(assuming all assignment)
 
   if (nRules>0)
 	{	i <- 1
@@ -465,7 +459,7 @@
 		      #cat( "mathml:", toString(rules[[i]][["math"]][[1]]), "\n") gives you the entire math block
 		      model$rules[[i]]$mathmlLaw=mathml
 			
-		      e<-mathml2R(mathml)		#creates the expression law given all the child nodes under <math>.
+		      e<-mathml2R(mathml)					   #creates the expression law given all the child nodes under <math>.
 			
 		      model$rules[[i]]$exprLaw<-e[[1]]
 		      model$rules[[i]]$strLaw<-gsub(" ","",toString(e[1]))
@@ -473,13 +467,8 @@
 		      r<-model$rules[[i]]$inputs<-setdiff(leaves,globalParameters) # must deduce inputs by substracting global params
 			
 		      model$rules[[i]]$law=makeLaw(r,NULL,model$rules[[i]]$exprLaw)
-			
-			i <- i + 1
-		#      r=model$rules[[i]]$inputs
-		#model$rules[[i]]$idOutput=xmlAttrs(rules[[i]])[["variable"]][[1]] # moved to handler to preset the rules list length!
-		#      ruleIDs[i]<-model$rules[[i]]$idOutput
-    		}
-		#    names(model$rules)<-sapply(model$rules,function(x) x$idOutput)
+		      i <- i + 1
+		}
   	} 
 
   nReactions=length(reactions)

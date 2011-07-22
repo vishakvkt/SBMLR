@@ -81,6 +81,8 @@ Areamatrix <- function(model, SimulatedModelSet) {
 
 prcc_compute <- function(SpeciesMatrix, sobolMatrix) {
 
+	library(sensitivity)				#library loading in case it is not
+
 	NumSets <- nrow(sobolMatrix)
 	
 	nSpecies <- ncol(SpeciesMatrix)
