@@ -497,8 +497,8 @@
   
 	#---DEBUG CODE
 	cat("Number of species: " , length(model$species), "\n")
-	cat("Number of rules: ", nRules, "\n")
-	cat("Number of Global Parameters: " , length(globalParameters), "\n")
+	#cat("Number of rules: ", nRules, "\n")
+	#cat("Number of Global Parameters: " , length(globalParameters), "\n")
 	cat("Number of reactions: " , nReactions, "\n")
 	cat("Parsing Successful !" , "\n")
 	#-----------
