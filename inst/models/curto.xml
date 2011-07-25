@@ -1,0 +1,1365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1">
+<model id="curto">
+<notes>
+ <body xmlns="http://www.w3.org/1999/xhtml">
+   <p> This is a purine metabolism model that is geared toward studies of gout.  </p>
+   <p> The model is fully described in Curto et al., MBSC 151 (1998) pp 1-49  </p>
+   <p> The model uses Generalized Mass Action (GMA;i.e. power law) descriptions of reaction rate laws.  </p>
+   <p> Such descriptions are local approximations that assume independent substrate binding.   </p>
+   <p>                       </p>
+   <p> The de novo purine flux vden= 2.39 is in umole/min/KG, i.e. 2.4*60=144 uM/h if we let each Kg be a  </p>
+   <p> liter of water. Morrison and Allegra (JBC, 1989) have vden at 650 uM/h (model) and 415 (exp).  </p>
+   <p> The IC's below have been set to the system's steady state.  </p>
+   <p> The units in this model are micromolar(uM) and minutes.  </p>
+   <p> A cell volume of 1 is used so that amounts and concentrations are the same thing.  </p>
+ </body>
+</notes>
+<listOfCompartments>
+   <compartment id="cell"  size="1" />
+</listOfCompartments>
+<listOfSpecies>
+   <species id="PRPP"  initialConcentration="5.01742"  compartment="cell" boundaryCondition="false"/>
+   <species id="IMP"  initialConcentration="98.2634"  compartment="cell" boundaryCondition="false"/>
+   <species id="SAMP"  initialConcentration="0.198189"  compartment="cell" boundaryCondition="false"/>
+   <species id="ATP"  initialConcentration="2475.35"  compartment="cell" boundaryCondition="false"/>
+   <species id="SAM"  initialConcentration="3.99187"  compartment="cell" boundaryCondition="false"/>
+   <species id="Ade"  initialConcentration="0.98473"  compartment="cell" boundaryCondition="false"/>
+   <species id="XMP"  initialConcentration="24.793"  compartment="cell" boundaryCondition="false"/>
+   <species id="GTP"  initialConcentration="410.223"  compartment="cell" boundaryCondition="false"/>
+   <species id="dATP"  initialConcentration="6.01413"  compartment="cell" boundaryCondition="false"/>
+   <species id="dGTP"  initialConcentration="3.02581"  compartment="cell" boundaryCondition="false"/>
+   <species id="RNA"  initialConcentration="28680.5"  compartment="cell" boundaryCondition="false"/>
+   <species id="DNA"  initialConcentration="5179.34"  compartment="cell" boundaryCondition="false"/>
+   <species id="HX"  initialConcentration="9.51785"  compartment="cell" boundaryCondition="false"/>
+   <species id="Xa"  initialConcentration="5.05941"  compartment="cell" boundaryCondition="false"/>
+   <species id="Gua"  initialConcentration="5.50638"  compartment="cell" boundaryCondition="false"/>
+   <species id="UA"  initialConcentration="100.293"  compartment="cell" boundaryCondition="false"/>
+   <species id="R5P"  initialConcentration="18"  compartment="cell" boundaryCondition="true"/>
+   <species id="Pi"  initialConcentration="1400"  compartment="cell" boundaryCondition="true"/>
+</listOfSpecies>
+<listOfReactions>
+  <reaction id="ada"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "ATP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "HX" />
+    </listOfProducts>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>aada</ci>
+    <apply>
+      <power/>
+     <ci>ATP</ci>
+     <ci>fada4</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "aada" value = "0.001062"/>
+      <parameter id = "fada4" value = "0.97"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="ade"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "Ade" />
+    </listOfReactants>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>aade</ci>
+    <apply>
+      <power/>
+     <ci>Ade</ci>
+     <ci>fade6</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "aade" value = "0.01"/>
+      <parameter id = "fade6" value = "0.55"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="adna"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "dATP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "DNA" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "dGTP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>aadna</ci>
+    <apply>
+      <power/>
+     <ci>dATP</ci>
+     <ci>fdnap9</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>dGTP</ci>
+     <ci>fdnap10</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "aadna" value = "3.2789"/>
+      <parameter id = "fdnap9" value = "0.42"/>
+      <parameter id = "fdnap10" value = "0.33"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="adrnr"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "ATP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "dATP" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "dGTP" />
+      <modifierSpeciesReference species = "dATP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>aadrnr</ci>
+    <apply>
+      <power/>
+     <ci>ATP</ci>
+     <ci>fadrnr4</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>dATP</ci>
+     <ci>fadrnr9</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>dGTP</ci>
+     <ci>fadrnr10</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "aadrnr" value = "0.0602"/>
+      <parameter id = "fadrnr4" value = "0.1"/>
+      <parameter id = "fadrnr9" value = "-0.3"/>
+      <parameter id = "fadrnr10" value = "0.87"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="ampd"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "ATP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "IMP" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "GTP" />
+      <modifierSpeciesReference species = "Pi" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>aampd</ci>
+    <apply>
+      <power/>
+     <ci>ATP</ci>
+     <ci>fampd4</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>GTP</ci>
+     <ci>fampd8</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>Pi</ci>
+     <ci>fampd18</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "aampd" value = "0.02688"/>
+      <parameter id = "fampd4" value = "0.8"/>
+      <parameter id = "fampd8" value = "-0.03"/>
+      <parameter id = "fampd18" value = "-0.1"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="aprt"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "PRPP" />
+      <speciesReference species = "Ade" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "ATP" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "ATP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>aaprt</ci>
+    <apply>
+      <power/>
+     <ci>PRPP</ci>
+     <ci>faprt1</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>ATP</ci>
+     <ci>faprt4</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>Ade</ci>
+     <ci>faprt6</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "aaprt" value = "233.8"/>
+      <parameter id = "faprt1" value = "0.5"/>
+      <parameter id = "faprt4" value = "-0.8"/>
+      <parameter id = "faprt6" value = "0.75"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="arna"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "ATP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "RNA" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "GTP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>aarna</ci>
+    <apply>
+      <power/>
+     <ci>ATP</ci>
+     <ci>frnap4</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>GTP</ci>
+     <ci>frnap8</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "aarna" value = "614.5"/>
+      <parameter id = "frnap4" value = "0.05"/>
+      <parameter id = "frnap8" value = "0.13"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="asuc"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "IMP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "SAMP" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "ATP" />
+      <modifierSpeciesReference species = "GTP" />
+      <modifierSpeciesReference species = "Pi" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>aasuc</ci>
+    <apply>
+      <power/>
+     <ci>IMP</ci>
+     <ci>fasuc2</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>ATP</ci>
+     <ci>fasuc4</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>GTP</ci>
+     <ci>fasuc8</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>Pi</ci>
+     <ci>fasuc18</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "aasuc" value = "3.5932"/>
+      <parameter id = "fasuc2" value = "0.4"/>
+      <parameter id = "fasuc4" value = "-0.24"/>
+      <parameter id = "fasuc8" value = "0.2"/>
+      <parameter id = "fasuc18" value = "-0.05"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="asli"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "SAMP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "ATP" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "ATP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>aasli</ci>
+    <apply>
+      <power/>
+     <ci>SAMP</ci>
+     <ci>fasli3</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>ATP</ci>
+     <ci>fasli4</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "aasli" value = "66544"/>
+      <parameter id = "fasli3" value = "0.99"/>
+      <parameter id = "fasli4" value = "-0.95"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="dada"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "dATP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "HX" />
+    </listOfProducts>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>adada</ci>
+    <apply>
+      <power/>
+     <ci>dATP</ci>
+     <ci>fdada9</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "adada" value = "0.03333"/>
+      <parameter id = "fdada9" value = "1"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="den"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "PRPP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "IMP" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "dGTP" />
+      <modifierSpeciesReference species = "IMP" />
+      <modifierSpeciesReference species = "ATP" />
+      <modifierSpeciesReference species = "GTP" />
+      <modifierSpeciesReference species = "Pi" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>aden</ci>
+    <apply>
+      <power/>
+     <ci>PRPP</ci>
+     <ci>fden1</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>IMP</ci>
+     <ci>fden2</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>ATP</ci>
+     <ci>fden4</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>GTP</ci>
+     <ci>fden8</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>Pi</ci>
+     <ci>fden18</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "aden" value = "5.2728"/>
+      <parameter id = "fden1" value = "2"/>
+      <parameter id = "fden2" value = "-0.06"/>
+      <parameter id = "fden4" value = "-0.25"/>
+      <parameter id = "fden8" value = "-0.2"/>
+      <parameter id = "fden18" value = "-0.08"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="dgnuc"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "dGTP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "Gua" />
+    </listOfProducts>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>adgnuc</ci>
+    <apply>
+      <power/>
+     <ci>dGTP</ci>
+     <ci>fdgnuc10</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "adgnuc" value = "0.03333"/>
+      <parameter id = "fdgnuc10" value = "1"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="dnaa"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "DNA" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "dATP" />
+    </listOfProducts>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>adnaa</ci>
+    <apply>
+      <power/>
+     <ci>DNA</ci>
+     <ci>fdnan12</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "adnaa" value = "0.001938"/>
+      <parameter id = "fdnan12" value = "1"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="dnag"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "DNA" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "dGTP" />
+    </listOfProducts>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>adnag</ci>
+    <apply>
+      <power/>
+     <ci>DNA</ci>
+     <ci>fdnan12</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "adnag" value = "0.001318"/>
+      <parameter id = "fdnan12" value = "1"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="gdna"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "dGTP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "DNA" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "dATP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>agdna</ci>
+    <apply>
+      <power/>
+     <ci>dATP</ci>
+     <ci>fdnap9</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>dGTP</ci>
+     <ci>fdnap10</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "agdna" value = "2.2296"/>
+      <parameter id = "fdnap9" value = "0.42"/>
+      <parameter id = "fdnap10" value = "0.33"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="gdrnr"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "GTP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "dGTP" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "dATP" />
+      <modifierSpeciesReference species = "dGTP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>agdrnr</ci>
+    <apply>
+      <power/>
+     <ci>GTP</ci>
+     <ci>fgdrnr8</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>dATP</ci>
+     <ci>fgdrnr9</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>dGTP</ci>
+     <ci>fgdrnr10</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "agdrnr" value = "0.1199"/>
+      <parameter id = "fgdrnr8" value = "0.4"/>
+      <parameter id = "fgdrnr9" value = "-1.2"/>
+      <parameter id = "fgdrnr10" value = "-0.39"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="gmpr"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "GTP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "IMP" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "XMP" />
+      <modifierSpeciesReference species = "ATP" />
+      <modifierSpeciesReference species = "IMP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>agmpr</ci>
+    <apply>
+      <power/>
+     <ci>IMP</ci>
+     <ci>fgmpr2</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>ATP</ci>
+     <ci>fgmpr4</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>XMP</ci>
+     <ci>fgmpr7</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>GTP</ci>
+     <ci>fgmpr8</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "agmpr" value = "0.3005"/>
+      <parameter id = "fgmpr2" value = "-0.15"/>
+      <parameter id = "fgmpr4" value = "-0.07"/>
+      <parameter id = "fgmpr7" value = "-0.76"/>
+      <parameter id = "fgmpr8" value = "0.7"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="gmps"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "XMP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "GTP" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "ATP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>agmps</ci>
+    <apply>
+      <power/>
+     <ci>ATP</ci>
+     <ci>fgmps4</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>XMP</ci>
+     <ci>fgmps7</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "agmps" value = "0.3738"/>
+      <parameter id = "fgmps4" value = "0.12"/>
+      <parameter id = "fgmps7" value = "0.16"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="gnuc"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "GTP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "Gua" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "Pi" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>agnuc</ci>
+    <apply>
+      <power/>
+     <ci>GTP</ci>
+     <ci>fgnuc8</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>Pi</ci>
+     <ci>fgnuc18</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "agnuc" value = "0.2511"/>
+      <parameter id = "fgnuc8" value = "0.9"/>
+      <parameter id = "fgnuc18" value = "-0.34"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="gprt"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "Gua" />
+      <speciesReference species = "PRPP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "GTP" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "GTP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>agprt</ci>
+    <apply>
+      <power/>
+     <ci>PRPP</ci>
+     <ci>fgprt1</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>GTP</ci>
+     <ci>fgprt8</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>Gua</ci>
+     <ci>fgprt15</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "agprt" value = "361.69"/>
+      <parameter id = "fgprt1" value = "1.2"/>
+      <parameter id = "fgprt8" value = "-1.2"/>
+      <parameter id = "fgprt15" value = "0.42"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="grna"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "GTP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "RNA" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "ATP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>agrna</ci>
+    <apply>
+      <power/>
+     <ci>ATP</ci>
+     <ci>frnap4</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>GTP</ci>
+     <ci>frnap8</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "agrna" value = "409.6"/>
+      <parameter id = "frnap4" value = "0.05"/>
+      <parameter id = "frnap8" value = "0.13"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="gua"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "Gua" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "Xa" />
+    </listOfProducts>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>agua</ci>
+    <apply>
+      <power/>
+     <ci>Gua</ci>
+     <ci>fgua15</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "agua" value = "0.4919"/>
+      <parameter id = "fgua15" value = "0.5"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="hprt"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "HX" />
+      <speciesReference species = "PRPP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "IMP" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "IMP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>ahprt</ci>
+    <apply>
+      <power/>
+     <ci>PRPP</ci>
+     <ci>fhprt1</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>IMP</ci>
+     <ci>fhprt2</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>HX</ci>
+     <ci>fhprt13</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "ahprt" value = "12.569"/>
+      <parameter id = "fhprt1" value = "1.1"/>
+      <parameter id = "fhprt2" value = "-0.89"/>
+      <parameter id = "fhprt13" value = "0.48"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="hx"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "HX" />
+    </listOfReactants>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>ahx</ci>
+    <apply>
+      <power/>
+     <ci>HX</ci>
+     <ci>fhx13</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "ahx" value = "0.003793"/>
+      <parameter id = "fhx13" value = "1.12"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="hxd"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "HX" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "Xa" />
+    </listOfProducts>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>ahxd</ci>
+    <apply>
+      <power/>
+     <ci>HX</ci>
+     <ci>fhxd13</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "ahxd" value = "0.2754"/>
+      <parameter id = "fhxd13" value = "0.65"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="impd"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "IMP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "XMP" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "GTP" />
+      <modifierSpeciesReference species = "XMP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>aimpd</ci>
+    <apply>
+      <power/>
+     <ci>IMP</ci>
+     <ci>fimpd2</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>XMP</ci>
+     <ci>fimpd7</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>GTP</ci>
+     <ci>fimpd8</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "aimpd" value = "1.2823"/>
+      <parameter id = "fimpd2" value = "0.15"/>
+      <parameter id = "fimpd7" value = "-0.09"/>
+      <parameter id = "fimpd8" value = "-0.03"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="inuc"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "IMP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "HX" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "Pi" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>ainuc</ci>
+    <apply>
+      <power/>
+     <ci>IMP</ci>
+     <ci>finuc2</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>Pi</ci>
+     <ci>finuc18</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "ainuc" value = "0.9135"/>
+      <parameter id = "finuc2" value = "0.8"/>
+      <parameter id = "finuc18" value = "-0.36"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="mat"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "ATP" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "SAM" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "SAM" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>amat</ci>
+    <apply>
+      <power/>
+     <ci>ATP</ci>
+     <ci>fmat4</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>SAM</ci>
+     <ci>fmat5</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "amat" value = "7.2067"/>
+      <parameter id = "fmat4" value = "0.2"/>
+      <parameter id = "fmat5" value = "-0.6"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="polyam"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "SAM" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "Ade" />
+    </listOfProducts>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>apolyam</ci>
+    <apply>
+      <power/>
+     <ci>SAM</ci>
+     <ci>fpolyam5</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "apolyam" value = "0.29"/>
+      <parameter id = "fpolyam5" value = "0.9"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="prpps"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "R5P" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "PRPP" />
+    </listOfProducts>
+    <listOfModifiers>
+      <modifierSpeciesReference species = "ATP" />
+      <modifierSpeciesReference species = "GTP" />
+      <modifierSpeciesReference species = "Pi" />
+      <modifierSpeciesReference species = "PRPP" />
+    </listOfModifiers>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+    <apply>
+      <times/>
+     <ci>aprpps</ci>
+    <apply>
+      <power/>
+     <ci>PRPP</ci>
+     <ci>fprpps1</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>ATP</ci>
+     <ci>fprpps4</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>GTP</ci>
+     <ci>fprpps8</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>R5P</ci>
+     <ci>fprpps17</ci>
+    </apply>
+    </apply>
+    <apply>
+      <power/>
+     <ci>Pi</ci>
+     <ci>fprpps18</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "aprpps" value = "0.9"/>
+      <parameter id = "fprpps1" value = "-0.03"/>
+      <parameter id = "fprpps4" value = "-0.45"/>
+      <parameter id = "fprpps8" value = "-0.04"/>
+      <parameter id = "fprpps17" value = "0.65"/>
+      <parameter id = "fprpps18" value = "0.7"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="pyr"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "PRPP" />
+    </listOfReactants>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>apyr</ci>
+    <apply>
+      <power/>
+     <ci>PRPP</ci>
+     <ci>fpyr1</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "apyr" value = "1.2951"/>
+      <parameter id = "fpyr1" value = "1.27"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="rnaa"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "RNA" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "ATP" />
+    </listOfProducts>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>arnaa</ci>
+    <apply>
+      <power/>
+     <ci>RNA</ci>
+     <ci>frnan11</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "arnaa" value = "0.06923"/>
+      <parameter id = "frnan11" value = "1"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="rnag"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "RNA" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "GTP" />
+    </listOfProducts>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>arnag</ci>
+    <apply>
+      <power/>
+     <ci>RNA</ci>
+     <ci>frnan11</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "arnag" value = "0.04615"/>
+      <parameter id = "frnan11" value = "1"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="trans"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "SAM" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "ATP" />
+    </listOfProducts>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>atrans</ci>
+    <apply>
+      <power/>
+     <ci>SAM</ci>
+     <ci>ftrans5</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "atrans" value = "8.8539"/>
+      <parameter id = "ftrans5" value = "0.33"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="ua"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "UA" />
+    </listOfReactants>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>aua</ci>
+    <apply>
+      <power/>
+     <ci>UA</ci>
+     <ci>fua16</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "aua" value = "8.744e-005"/>
+      <parameter id = "fua16" value = "2.21"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="x"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "Xa" />
+    </listOfReactants>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>ax</ci>
+    <apply>
+      <power/>
+     <ci>Xa</ci>
+     <ci>fx14</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "ax" value = "0.0012"/>
+      <parameter id = "fx14" value = "2"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+  <reaction id="xd"  reversible="false">
+    <listOfReactants>
+      <speciesReference species = "Xa" />
+    </listOfReactants>
+    <listOfProducts>
+      <speciesReference species = "UA" />
+    </listOfProducts>
+  <kineticLaw>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <apply>
+      <times/>
+     <ci>axd</ci>
+    <apply>
+      <power/>
+     <ci>Xa</ci>
+     <ci>fxd14</ci>
+    </apply>
+    </apply>
+    </math>
+    <listOfParameters>
+      <parameter id = "axd" value = "0.949"/>
+      <parameter id = "fxd14" value = "0.55"/>
+    </listOfParameters>
+    </kineticLaw>
+  </reaction>
+</listOfReactions>
+</model>
+</sbml>

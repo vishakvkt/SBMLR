@@ -40,9 +40,11 @@ library(odesolve)
 library(SBMLR)
 
 load('model.dat')							# loading the model object
-load('sobol.dat')							# loading the sobol matrix
-source('sobol_sim.r')							# loading sobol function
+load('sobol.dat')							# loading the sobol matrix TODO - only give each node its set of sobolsets
+
 mod <- model
+
+rm(model)
 
 #remain <- nrow(sets) %% num						# in case the world is going to end
 #perNode <- floor(nrow(sets)/num)					# arbitrary calculation
@@ -52,7 +54,8 @@ mod <- model
 #initial <- num * perNode
 #out <- sobol_sim(mod, sets[(initial+1):((initial-1)+perNode), ])	# each node computes 10 sobol sets
 
-out <-sobol_sim(mod, sets[(num-9):num, ])
+out <-sobol_sim(mod, sets[(num-9):num, ])				# each node computes sets, 1 through 10,11 to 20 n so on..
+									# entered command is -t 10-100:10 so these are the node N values
 save(file=paste(as.character(num),'.Rsim',sep=''),out)
 
 done <- "process done"

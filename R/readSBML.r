@@ -17,7 +17,7 @@
     species <- list()					#list of species
     rules<- list()					#list of rules
     reactions<- list()					#list of reactions
-    globalParameters=list()			#list of Global parameters. Local params are declared locally(within a reaction) 
+    globalParameters<-list()			#list of Global parameters. Local params are declared locally(within a reaction) 
     ParametersList<- list()				#list of parameter objects	
     reactants=NULL				
     products=NULL
@@ -225,7 +225,7 @@
 		}
 
 		#---DEBUG----
-		cat("Compartment id:", id,"\n", "Compartment size:" , size, "\n","Compartment name:", name, "\n")
+		#cat("Compartment id:", id,"\n", "Compartment size:" , size, "\n","Compartment name:", name, "\n")
 		#-------------
 		if(numit == 2)						# only 2 attributes present. We need to find them.
 		{
@@ -279,6 +279,9 @@
 				"name" = { name <- x[[count]]; nameslist[[length(nameslist)+1]] <- "name"},
 				"initialConcentration" = { ic <- as.numeric(x[[count]]) ;nameslist[[length(nameslist)+1]] <- "ic" },
 				"compartment" = { compart <- as.character(x[[count]]); nameslist[[length(nameslist)+1]] <- "compartment"},
+
+
+
 				"boundaryCondition" = { bc <- as.logical(x[[count]]); nameslist[[length(nameslist)+1]] <- "bc"}
 			      )
 			count = count + 1
@@ -451,9 +454,7 @@
   nRules=length(rules)								# Number of rules in the sbml file(assuming all assignment)
 
   if (nRules>0)
-	{	i <- 1
-		while( i < nRules)
-		{  
+	{	for( i in 1:(nRules-1)) {  
 			mathml<-rules[[i]][["math"]][[1]]
 		
 		      #cat( "mathml:", toString(rules[[i]][["math"]][[1]]), "\n") gives you the entire math block
@@ -467,9 +468,9 @@
 		      r<-model$rules[[i]]$inputs<-setdiff(leaves,globalParameters) # must deduce inputs by substracting global params
 			
 		      model$rules[[i]]$law=makeLaw(r,NULL,model$rules[[i]]$exprLaw)
-		      i <- i + 1
 		}
   	} 
+
 
   nReactions=length(reactions)
   if (nReactions>0)
@@ -482,9 +483,10 @@
 	      model$reactions[[i]]$exprLaw=e[[1]]
 	      model$reactions[[i]]$strLaw=gsub(" ","",toString(e[1]))
 	      #paste(as.character(model$reactions[[i]]$expr)[c(2,1,3)],collapse=""))
-      	      r=c(model$reactions[[i]]$reactants, model$reactions[[i]]$products)	#build using both reactants and products objects.
+      	      r=c(model$reactions[[i]]$reactants, model$reactions[[i]]$products)	#build using both reactants and products objects. TODO - add compartments
 	      p=names(model$reactions[[i]]$parameters)
 	      m=model$reactions[[i]]$modifiers
+             
 	      r=c(r,m)
 	      e=model$reactions[[i]]$exprLaw
 	      model$reactions[[i]]$law=makeLaw(r,p,e)
@@ -497,8 +499,8 @@
   
 	#---DEBUG CODE
 	cat("Number of species: " , length(model$species), "\n")
-	#cat("Number of rules: ", nRules, "\n")
-	#cat("Number of Global Parameters: " , length(globalParameters), "\n")
+	cat("Number of rules: ", nRules, "\n")
+	cat("Number of Global Parameters: " , length(globalParameters), "\n")
 	cat("Number of reactions: " , nReactions, "\n")
 	cat("Parsing Successful !" , "\n")
 	#-----------
