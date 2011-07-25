@@ -4,7 +4,7 @@ The original package was very strict in terms of arrangement of the XML and rare
 
 In this fork, the parser for the most part has been rewritten. Some leeway has been given for parsing dirty XML's too.
 
-The package can also be used to simulate the biological models from within the R environment and perform global sensitivity analysis by computing 
+The package can also be used to simulate Biological models within the R environment and perform global sensitivity analysis by computing 
 the partial rank correlations of the different parameters of the model.
 
 --Dependencies-----
@@ -12,6 +12,7 @@ the partial rank correlations of the different parameters of the model.
 libxml2 - XML tree creaetor. This can be installed by typing 'library("XML")' without the single quotes within R.
 odesolve - Livermore ODE solver. This can be installed by tying 'library("odesolve")' without the single quotes from within R.
 
+To perform sensitivity analysis, you need an additional package 'library("sensitivity")'. This can be installed from within R the same way as the previous packages.
 ----Installation---
 
 Note: These Instructions apply to linux, windows and Mac operating systems.
@@ -30,6 +31,23 @@ so for example, if the package was in /home/user/Downloads/SBMLR, you would type
 
 
 ----------------
+
+Quick Start:
+
+1) Install the dependencies and the library. Call the library within R using 'library(SBMLR)'.
+
+2) Note down the path to your model and your Sobol Set for the parameters. If you are not using a randomized algorithm like Sobol to generate model inputs, simple type
+	output <- load_simulate(1, path_to_model, time_series)
+	The output is just raw data. The ideal way to use it to then bind it to a data frame like this. 
+	Usable_output <- data.frame(output)
+
+3) If you have a table of model inputs which you want to run, This can be imported easily. All you need to do is type,
+	output_set <- load_simulate(path_to_sets, path_to_model, time_series)
+	The output_set obtained is a list. Access the results like you access any list of simulation results. eg. output_set[[index]]
+
+4) Look at the additional docs for using some of the individual functions if you want to calculate 'Area under the curve', GSA etc. 
+
+Note: I recommend you use the load_simulate() function initially until you are comfortable using the package. After that, you can tweak and perform operations separately by calling the operations you want at the time you wish. The load_simulate() is just a wrapper which sets many things for you automatically.
 
 Functions available in SBMLR
 
@@ -67,4 +85,4 @@ simulated = simulate(model, seq(1,60,1))			#here time is a vector sequence from 
 
 Thats all for now.
 ---------------------
-written by vishak, Msc Computer Science student, Edinburgh University.
+Readme written by vishak, Msc Computer Science student, Edinburgh University.

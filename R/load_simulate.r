@@ -16,13 +16,22 @@
 
 "load_simulate" <- function(path_to_sobol, model_path, time) {
 
+	model <- readSBML(model_path)						#Create the model object
+	print('model parsed successfully')
+
+	if(path_to_sobol == 1)	{						#No set entered. Default model simulation requested.
+	
+		result <- simulate(model, time)
+		result	
+	}
+	else {
 	simulated_results <-list()
 	sets <- sobolset(path_to_sobol)						#Create the sobol set matrix
 	print('Sobol matrix created successfully')
-	model <- readSBML(model_path)						#Create the model object
-	print('model parsed successfully')
+
 	simulated_results <- sobol_sim(model, sets, time)			#Simulate the model for n sets
 	print('Simulation Completed successfully')
 	simulated_results							#Return the simulation results
+	}
 }
 
