@@ -4,7 +4,7 @@
 #
 # Author: vishak
 
-area_matrix <- function(model, SimulatedModelSet) {
+"area_matrix" <- function(model, SimulatedModelSet) {
 
 	nSets <- length(SimulatedModelSet)
 

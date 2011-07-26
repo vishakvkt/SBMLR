@@ -1,4 +1,4 @@
 import(XML,odesolve)
-export(readSBML,readSBMLR,saveSBML,saveSBMLR,simulate, sobolset,sobol_sim, prcc_compute, load_simulate, load_simulate_sensitivity)
+export(readSBML,readSBMLR,saveSBML,saveSBMLR,simulate, sobolset,sobol_sim, prcc_compute, load_simulate, area_matrix,load_simulate_sensitivity,extract, cumulative_assignment)
 S3method(summary, SBML)
 S3method(Ops, SBML)

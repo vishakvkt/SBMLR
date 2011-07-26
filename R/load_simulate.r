@@ -30,8 +30,12 @@
 	print('Sobol matrix created successfully')
 
 	simulated_results <- sobol_sim(model, sets, time)			#Simulate the model for n sets
+	extracted_results <- list()
+		for(i in 1:nrow(sets)) {
+			extracted_results[[i]] <- extract(model, simulated_results[[i]])
+		}
 	print('Simulation Completed successfully')
-	simulated_results							#Return the simulation results
+	extracted_results							#Return the simulation results
 	}
 }
 

@@ -8,6 +8,7 @@
 	if(path_to_sobol == 1) { 
 	
 		simulated_results <- simulate(model, time_series)
+		cat('Calculating sensitivity with only the default set is not recommended')
 	}
 
 	else {
