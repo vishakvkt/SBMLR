@@ -26,7 +26,8 @@
 
 				senslist <- pcc(frame_sobol[1:NumSets,1:nParams],frame_spec[1:NumSets,species_names[j]], rank=TRUE)
 				prcc_l<-senslist[['PRCC']];						# extract prcc
-				sens[[i]] <- prcc_l;
+				colnames(prcc_l) <- species_names[[j]];
+				sens[[j]] <- prcc_l;
 		}
 
 	#colnames(sens) <- colnames(SpeciesMatrix)							# set matrix according to names vector containing species names
